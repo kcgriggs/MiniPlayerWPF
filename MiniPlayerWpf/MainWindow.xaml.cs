@@ -17,6 +17,7 @@ namespace MiniPlayerWpf
     {
         private MusicLib musicLib;
         private MediaPlayer mediaPlayer;
+        private ObservableCollection<String> songIds;
 
         // Custom commands
         public static RoutedCommand Add = new RoutedCommand();
@@ -28,19 +29,23 @@ namespace MiniPlayerWpf
             InitializeComponent();
 
             mediaPlayer = new MediaPlayer();
+            musicLib = new MusicLib();
 
             musicLib.PrintAllTables();
+            songIds = new ObservableCollection<string>(musicLib.SongIds);
 
-            Console.WriteLine("Total songs = " + musicLib.SongIds.Count());    
+            Console.WriteLine("Total songs = " + songIds.Count());    
 
             // Bind the song IDs to the combo box
-            songIdComboBox.ItemsSource = musicLib.SongIds;
+            songIdComboBox.ItemsSource = songIds;
             
             // Select the first item
             if (songIdComboBox.Items.Count > 0)
             {
                 songIdComboBox.SelectedItem = songIdComboBox.Items[0];
             }
+
+           
         }
 
         
@@ -92,18 +97,15 @@ namespace MiniPlayerWpf
             {
                 Console.WriteLine("Load song " + songIdComboBox.SelectedItem);
                 int songId = Convert.ToInt32(songIdComboBox.SelectedItem);
-                DataTable table = musicDataSet.Tables["song"];
 
                 // Only one row should be selected
-                foreach (DataRow row in table.Select("id=" + songId))
-                {
-                    titleTextBox.Text = row["title"].ToString();
-                    artistTextBox.Text = row["artist"].ToString();
-                    albumTextBox.Text = row["album"].ToString();
-                    genreTextBox.Text = row["genre"].ToString();
-                    lengthTextBox.Text = row["length"].ToString();
-                    filenameTextBox.Text = row["filename"].ToString();                    
-                }
+                Song song = musicLib.GetSong(songId);
+                titleTextBox.Text = song.Title;
+                    artistTextBox.Text =song.Artist;
+                    albumTextBox.Text = song.Album;
+                    genreTextBox.Text = song.Genre;
+                    lengthTextBox.Text = song.Length;
+                    filenameTextBox.Text = song.Filename;                    
             }
         }
 
@@ -157,7 +159,8 @@ namespace MiniPlayerWpf
             (songIdComboBox.ItemsSource as ObservableCollection<string>).Add(id);
             songIdComboBox.SelectedIndex = songIdComboBox.Items.Count - 1;
             // There is at least one song that can be deleted
-            deleteButton.IsEnabled = true;
+            deleteButton.IsEnabled = true;
+
         }
 
         private void UpdateCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -178,7 +181,7 @@ namespace MiniPlayerWpf
 
         private void UpdateCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = musicLib.SongIds != null && musicLib.SongIds.Count() > 0;
+            e.CanExecute = songIds != null && songIds.Count() > 0;
         }
 
         private void DeleteCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -186,29 +189,21 @@ namespace MiniPlayerWpf
             if (MessageBox.Show("Are you sure you want to delete this song?", "MiniPlayer",
                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                string songId = songIdComboBox.SelectedItem.ToString();
+                int songId = (Int32)songIdComboBox.SelectedItem;
                 Console.WriteLine("Deleting song " + songId);
 
                 // Search the primary key for the selected song and delete it from 
                 // the song table
-                DataTable table = musicDataSet.Tables["song"];
-                table.Rows.Remove(table.Rows.Find(songId));
+                musicLib.DeleteSong(songId);
 
                 // Remove from playlist_song every occurance of songId.
                 // Add rows to a separate list before deleting because we'll get an exception
                 // if we try to delete more than one row while looping through table.Rows
 
-                List<DataRow> rows = new List<DataRow>();
-                table = musicDataSet.Tables["playlist_song"];
-                foreach (DataRow row in table.Rows)
-                    if (row["song_id"].ToString() == songId.ToString())
-                        rows.Add(row);
-
-                foreach (DataRow row in rows)
-                    row.Delete();
+               
 
                 // Remove the song from the combo box and select the next item
-                musicLib.SongIds.(songIdComboBox.SelectedItem.ToString());
+                songIds.Remove(songIdComboBox.SelectedItem.ToString());
                 if (songIdComboBox.Items.Count > 0)
                     songIdComboBox.SelectedItem = songIdComboBox.Items[0];
                 else
@@ -226,7 +221,7 @@ namespace MiniPlayerWpf
         
         private void DeleteCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = musicLib.SongIds != null && musicLib.SongIds.Count() > 0;
+            e.CanExecute = songIds != null && songIds.Count() > 0;
         }
 
         private void PlayCommand_Executed(object sender, ExecutedRoutedEventArgs e)

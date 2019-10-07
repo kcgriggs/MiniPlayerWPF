@@ -99,12 +99,23 @@ namespace MiniPlayerWpf
             if(row != null)
             {
                 table.Rows.Remove(row);
+                List<DataRow> rows = new List<DataRow>();
+                table = musicDataSet.Tables["playlist_song"];
+                foreach (DataRow row2 in table.Rows)
+                    if (row2["song_id"].ToString() == songId.ToString())
+                        rows.Add(row2);
+
+                foreach (DataRow row2 in rows)
+                    row.Delete();
+
                 return true;
             }
             else
             {
                 return false;
             }
+
+           
         }
         public void Save()
         {
