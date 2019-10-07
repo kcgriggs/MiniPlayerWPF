@@ -41,6 +41,10 @@ namespace MiniPlayerWpf
         public int AddSong(Song song)
         {
             DataTable table = musicDataSet.Tables["song"];
+            bool exists = table.Rows.Find(song.Id) != null;
+
+            if (exists) return -1;
+           
             DataRow row = table.NewRow();
             row["title"] = song.Title;
             row["artist"] = song.Artist;
@@ -49,6 +53,7 @@ namespace MiniPlayerWpf
             row["length"] = song.Length;
             row["genre"] = song.Genre;
             table.Rows.Add(row);
+
             // Get the song's newly assigned ID
             song.Id = Convert.ToInt32(row["id"]);
             return song.Id;

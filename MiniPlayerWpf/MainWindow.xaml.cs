@@ -45,7 +45,6 @@ namespace MiniPlayerWpf
                 songIdComboBox.SelectedItem = songIdComboBox.Items[0];
             }
 
-           
         }
 
         
@@ -237,6 +236,8 @@ namespace MiniPlayerWpf
 
         private void SaveCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+            string filename = "music.xml";
+            Console.WriteLine("Saving " + filename);
             musicLib.Save();
         }
 
