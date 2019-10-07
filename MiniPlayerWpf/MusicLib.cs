@@ -114,7 +114,6 @@ namespace MiniPlayerWpf
             {
                 return false;
             }
-
            
         }
         public void Save()

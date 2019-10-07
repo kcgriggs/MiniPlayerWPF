@@ -165,7 +165,7 @@ namespace MiniPlayerWpf
 
         private void UpdateCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            int songId = (int)songIdComboBox.SelectedItem;
+            int songId = Convert.ToInt32(songIdComboBox.SelectedItem);
             Console.WriteLine("Updating song " + songId);
 
             Song updatedSong = new Song();
@@ -189,7 +189,7 @@ namespace MiniPlayerWpf
             if (MessageBox.Show("Are you sure you want to delete this song?", "MiniPlayer",
                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                int songId = (Int32)songIdComboBox.SelectedItem;
+                int songId = Convert.ToInt32(songIdComboBox.SelectedItem);
                 Console.WriteLine("Deleting song " + songId);
 
                 // Search the primary key for the selected song and delete it from 
