@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
 
 namespace MiniPlayerWpf
 {
-    class MusicLib
+    public class MusicLib
     {
         private DataSet musicDataSet;
         public MusicLib()
@@ -73,8 +69,9 @@ namespace MiniPlayerWpf
                 result.Genre = row["genre"].ToString();
                 result.Length = row["length"].ToString();
                 result.Filename = row["filename"].ToString();
+                return result;
             }
-            return result;
+            else return null;
         }
 
         public bool UpdateSong(int songId, Song song)

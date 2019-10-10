@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniPlayerWpf", "MiniPlayerWpf\MiniPlayerWpf.csproj", "{F7ECAA08-1D74-4731-897C-194039A08512}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniPlayerWpfTests", "MiniPlayerWpfTests\MiniPlayerWpfTests.csproj", "{A4F16358-277C-45C7-B0EA-B3A5F5281011}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +17,15 @@ Global
 		{F7ECAA08-1D74-4731-897C-194039A08512}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7ECAA08-1D74-4731-897C-194039A08512}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7ECAA08-1D74-4731-897C-194039A08512}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4F16358-277C-45C7-B0EA-B3A5F5281011}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4F16358-277C-45C7-B0EA-B3A5F5281011}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4F16358-277C-45C7-B0EA-B3A5F5281011}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4F16358-277C-45C7-B0EA-B3A5F5281011}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8F9390F7-B845-427F-8C22-904817E00690}
 	EndGlobalSection
 EndGlobal
